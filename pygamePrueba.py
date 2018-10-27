@@ -1,6 +1,8 @@
 import pygame, sys
 from pygame.locals import *
-
+HEIGHT_WINDOW = 400
+WIDTH_WINDOW = 500
+###Clase Sphero
 class Sphero(object):
     def __init__(self, posX, posY, vel, MyImage):
         self.posX = posX
@@ -18,34 +20,27 @@ class Sphero(object):
     def get_vel(self):
         return self.vel
 
-    def MLeft(self, posX, vel):
-            # print(posX)
-            posX -= vel
-            # print("posx")
-            # print(posX)
-            # print("vel")
-            # print(vel)
+    def MLeft(self, vel):
+        self.posX -= (vel)
 
-    def MRight(self, posX, vel):
-            posX += int(vel)
+    def MRight(self, vel):
+        self.posX += (vel)
+    def MoveX(self,vel):
+        self.posX += vel
+    def MoveY(self,vel):
+        self.posY +=vel
+    def MUp(self, vel):
+        self.posY -= (vel)
 
-    def MUp(self, posY, vel):
-            posY -= int(vel)
-
-    def MDown(self, posY, vel):
-            posY += int(vel)
-
-class Pared(object):
-    def __init__(self, posX, posY):
-        self.posX = posX
-        self.posY = posY
-
+    def MDown(self, vel):
+        self.posY += (vel)
 
 color = pygame.Color(31, 64, 195)
 
+#Incia Juego
 pygame.init()
 #Ventana
-venta = pygame.display.set_mode((500, 400))
+venta = pygame.display.set_mode((WIDTH_WINDOW, HEIGHT_WINDOW))
 
 #Rectangulo
 Rectangulo = pygame.Rect(20, 20, 100, 50)
@@ -58,29 +53,26 @@ pygame.display.set_caption("Laberinto")
 
 #Crear sphero
 sphero = Sphero(50, 50, 2, myImage)
-
+moveRight = True
+moveDown = True
 while True:
     venta.fill(white)
     venta.blit(sphero.MyImage, (sphero.posX, sphero.posY))
     #pygame.draw.rect(venta, color, Rectangulo, 0)
+    ##Eje X
+    if(sphero.posX<=50 and moveRight != True):
+        moveRight = True
+    elif(sphero.posX>=WIDTH_WINDOW-50 and moveRight == True):
+        moveRight = False
+    direccionX = 1 if(moveRight) else -1
+    sphero.MoveX(direccionX)
+    ##Eje Y
+    if(sphero.posY<=50 and moveDown != True):
+        moveDown = True
+    elif(sphero.posY>=HEIGHT_WINDOW-50 and moveDown == True):
+        moveDown = False
+    direccionY = 1 if(moveDown) else -1
+    sphero.MoveY(direccionY)
 
-
-    for event in pygame.event.get():
-        #Cerrar Ventana
-        if(event.type == QUIT):
-            pygame.quit()
-            sys.exit()
-        #Movimiento
-        elif(event.type == KEYDOWN):
-            if(event.key == K_LEFT):
-                print(str(sphero.get_posX()) + "PosX antes")
-                sphero.MLeft(sphero.get_posX(), 1)
-                print(str(sphero.get_posX()) + "Pos despues")
-            if(event.key == K_UP):
-                sphero.MUp(sphero.get_posY(), 1)
-            if(event.key == K_RIGHT):
-                sphero.MRight(sphero.get_posX(), 1)
-            elif(event.key == K_DOWN):
-                sphero.MDown(sphero.get_posX(), 1)
 
     pygame.display.update()
