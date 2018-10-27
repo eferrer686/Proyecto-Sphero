@@ -2,38 +2,67 @@ import pygame, sys
 from pygame.locals import *
 HEIGHT_WINDOW = 400
 WIDTH_WINDOW = 500
+
 ###Clase Sphero
 class Sphero(object):
-    def __init__(self, posX, posY, vel, MyImage):
+    def __init__(self, posX, posY, vel, MyImage, walls):
         self.posX = posX
         self.posY = posY
         self.vel = vel
+        #Paredes
+        self.walls = walls
+
         #Imagen
         self.MyImage = MyImage
-
     def get_posX(self):
         return self.posX
-
     def get_posY(self):
         return self.posY
-
     def get_vel(self):
         return self.vel
-
     def MLeft(self, vel):
-        self.posX -= (vel)
-
+        isCollisioning = False
+        for item in walls:
+            if(item.rect.colliderect(self)):
+                isCollisioning = True
+        if(isCollisioning == False):
+            self.posX -= (vel)
     def MRight(self, vel):
-        self.posX += (vel)
+        isCollisioning = False
+        for item in walls:
+            if(item.rect.colliderect(self)):
+                isCollisioning = True
+        if(isCollisioning == False):
+            self.posX += (vel)
     def MoveX(self,vel):
-        self.posX += vel
+        isCollisioning = False
+        for item in walls:
+            if(item.rect.colliderect(self)):
+                isCollisioning = True
+        if(isCollisioning == False):
+            self.posX += vel
     def MoveY(self,vel):
-        self.posY +=vel
+        isCollisioning = False
+        for item in walls:
+            if(item.rect.colliderect(self)):
+                isCollisioning = True
+        if(isCollisioning == False):
+            self.posY +=vel
     def MUp(self, vel):
-        self.posY -= (vel)
+        isCollisioning = False
+        for item in walls:
+            if(item.rect.colliderect(self)):
+                isCollisioning = True
+        if(isCollisioning == False):
+            self.posY -= (vel)
 
     def MDown(self, vel):
-        self.posY += (vel)
+        isCollisioning = False
+        for item in walls:
+            if(item.rect.colliderect(self)):
+                isCollisioning = True
+        if(isCollisioning == False):
+            self.posY += (vel)
 
 color = pygame.Color(31, 64, 195)
 
@@ -52,7 +81,7 @@ myImage = pygame.image.load("img/Sphero.png")
 pygame.display.set_caption("Laberinto")
 
 #Crear sphero
-sphero = Sphero(50, 50, 2, myImage)
+sphero = Sphero(50, 50, 2, myImage,[])
 moveRight = True
 moveDown = True
 while True:
