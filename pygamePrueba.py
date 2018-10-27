@@ -19,6 +19,7 @@ class Sphero(object):
         return self.vel
 
     def MLeft(self, posX, vel):
+<<<<<<< HEAD
             self.posX -= vel
 
 
@@ -63,12 +64,37 @@ class Pared(object):
             return True
         else:
             return False
+=======
+            # print(posX)
+            posX -= vel
+            # print("posx")
+            # print(posX)
+            # print("vel")
+            # print(vel)
+
+    def MRight(self, posX, vel):
+            posX += int(vel)
+
+    def MUp(self, posY, vel):
+            posY -= int(vel)
+
+    def MDown(self, posY, vel):
+            posY += int(vel)
+
+class Pared(object):
+    def __init__(self, posX, posY):
+        self.posX = posX
+        self.posY = posY
+>>>>>>> parent of d45f6a8... moveX moveY
 
 
 color = pygame.Color(31, 64, 195)
 
+<<<<<<< HEAD
 #####################################
 
+=======
+>>>>>>> parent of d45f6a8... moveX moveY
 pygame.init()
 #Ventana
 venta = pygame.display.set_mode((500, 400))
@@ -85,9 +111,12 @@ pygame.display.set_caption("Laberinto")
 
 #Crear sphero
 sphero = Sphero(50, 50, 2, myImage)
+<<<<<<< HEAD
 #Crear Pared
 pared = Pared(100, 100, 100, 40)
 wall = pygame.Rect(pared.get_posX(), pared.get_posY(), pared.get_Width(), pared.get_Height())
+=======
+>>>>>>> parent of d45f6a8... moveX moveY
 
 while True:
     venta.fill(white)
@@ -107,7 +136,13 @@ while True:
         #Movimiento
         elif(event.type == KEYDOWN):
             if(event.key == K_LEFT):
+<<<<<<< HEAD
                 sphero.MLeft(sphero.get_posX(), 1)
+=======
+                print(str(sphero.get_posX()) + "PosX antes")
+                sphero.MLeft(sphero.get_posX(), 1)
+                print(str(sphero.get_posX()) + "Pos despues")
+>>>>>>> parent of d45f6a8... moveX moveY
             if(event.key == K_UP):
                 sphero.MUp(sphero.get_posY(), 1)
             if(event.key == K_RIGHT):
