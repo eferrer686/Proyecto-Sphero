@@ -5,7 +5,7 @@ import copy
 class Brain(object):
     def __init__(self,nodesInput,nodesHidden,nodesOutput):
        
-        self.inputs = tf.placeholder(shape=[None,1],dtype=tf.float32)
+        self.inputs = tf.placeholder(shape=[None,nodesInput],dtype=tf.float32)
 
         self.W1 = tf.Variable(tf.random_normal(shape=[nodesInput,nodesHidden]))
         self.b1 = tf.Variable(tf.random_normal(shape=[nodesHidden]))
@@ -114,18 +114,6 @@ class Brain(object):
         print(self.sess.run(self.W2))
         print(self.sess.run(self.b2))
 
+brain = Brain(4,5,1)
 
-#Establecer # de nodos en las capas
-brain = Brain(1,5,1)
-brain.predict([[0.5]])
-
-#Copy de brain
-brain2 = Brain(1,5,1)
-inputs,W1,b1,hidden_1,W2,b2,output = brain.clone()
-brain2.setAll(inputs,W1,b1,hidden_1,W2,b2,output)
-brain2.predict([[0.5]])
-
-print("Brain 1")
-brain.printVariables()
-print("Brain 2")
-brain2.printVariables()
+brain.predict([[1,1,1,1]])
