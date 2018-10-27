@@ -15,36 +15,25 @@ class Sphero(object):
     def get_posY(self):
         return self.posY
 
-    def MLeft(object, posX, vel):
-            print(posX)
+    def get_vel(self):
+        return self.vel
+
+    def MLeft(self, posX, vel):
+            # print(posX)
             posX -= vel
-            print("posx")
-            print(posX)
-            print("vel")
-            print(vel)
+            # print("posx")
+            # print(posX)
+            # print("vel")
+            # print(vel)
 
-            return posX
-
-    def MRight(object, posX, vel):
+    def MRight(self, posX, vel):
             posX += int(vel)
 
-    def MUp(object, posY, vel):
+    def MUp(self, posY, vel):
             posY -= int(vel)
 
-    def MDown(object, posY, vel):
+    def MDown(self, posY, vel):
             posY += int(vel)
-
-    # if MLeft:
-    #     posX -= int(vel)
-    #
-    # if MRight:
-    #     posX += int(vel)
-    #
-    # if MUp:
-    #     posY -= int(vel)
-    #
-    # if MDown:
-    #     posY += int(vel)
 
 class Pared(object):
     def __init__(self, posX, posY):
@@ -84,7 +73,9 @@ while True:
         #Movimiento
         elif(event.type == KEYDOWN):
             if(event.key == K_LEFT):
+                print(str(sphero.get_posX()) + "PosX antes")
                 sphero.MLeft(sphero.get_posX(), 1)
+                print(str(sphero.get_posX()) + "Pos despues")
             if(event.key == K_UP):
                 sphero.MUp(sphero.get_posY(), 1)
             if(event.key == K_RIGHT):
