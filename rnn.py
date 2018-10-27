@@ -1,8 +1,10 @@
 import tensorflow as tf
+import copy
 
 #Setup of RNN
 class Brain(object):
     def __init__(self,nodesInput,nodesHidden,nodesOutput):
+       
         self.inputs = tf.placeholder(shape=[None,1],dtype=tf.float32)
 
         self.W1 = tf.Variable(tf.random_normal(shape=[nodesInput,nodesHidden]))
@@ -34,6 +36,7 @@ class Brain(object):
         self.newW = tf.multiply(self.b2,self.rW)
         self.mutateb2 = tf.assign(self.b2,self.newW)
 
+
         #Sesion en donde se almacenaran y procesaran los datos
         self.sess = tf.Session()
 
@@ -53,33 +56,76 @@ class Brain(object):
         self.sess.run(self.mutateb2)
 
     def clone(self):
-        return self
+
+        inputs = self.inputs
+
+        W1 = tf.identity(self.W1)
+        b1 = tf.identity(self.b1)
+        hidden_1 = tf.identity(self.hidden_1)
+        
+        W2 = tf.identity(self.W2)
+        b2 = tf.identity(self.b2)
+        output = tf.identity(self.output)
+        
+        return inputs,W1,b1,hidden_1,W2,b2,output
+    
+    def copy(self,inputs,W1,b1,hidden_1,W2,b2,output):
+        #Copy from another brain
+        self.sess.run(tf.global_variables_initializer())
+
+        self.copyinputs = tf.assign(self.inputs,inputs)
+
+        self.copyW1 = tf.assign(self.W1,W1)
+        self.copyb1 = tf.assign(self.b1,b1)
+        self.copyh1 = tf.assign(self.hidden_1,hidden_1)
+
+        self.copyW2 = tf.assign(self.W2,W2)
+        self.copyb2 = tf.assign(self.b2,b2)
+        self.copyoutput = tf.assign(self.output,output)
+
+        self.sess.run(tf.global_variables_initializer())
+
+        self.sess.run(self.copyinputs)
+
+        self.sess.run(self.copyW1)
+        self.sess.run(self.copyb1)
+        self.sess.run(self.copyh1)
+
+        self.sess.run(self.copyW2)
+        self.sess.run(self.copyb2)
+        self.sess.run(self.copyoutput)
+        
+    
+    def setAll(self,inputs,W1,b1,hidden_1,W2,b2,output):
+        self.inputs = inputs
+
+        self.W1 = W1
+        self.b1 = b1
+        self.hidden_1 = hidden_1
+
+        self.W2 = W2
+        self.b2 = b2
+        self.output = output
+        
+    
+    def printVariables(self):
+        print(self.sess.run(self.W1))
+        print(self.sess.run(self.b1))
+        print(self.sess.run(self.W2))
+        print(self.sess.run(self.b2))
 
 
 #Establecer # de nodos en las capas
 brain = Brain(1,5,1)
+brain.predict([[0.5]])
 
-#Prediccion sin ajuste
-array = brain.predict([[0.5]])
-print("Brain 1 predict: " + str(array))
+#Copy de brain
+brain2 = Brain(1,5,1)
+inputs,W1,b1,hidden_1,W2,b2,output = brain.clone()
+brain2.setAll(inputs,W1,b1,hidden_1,W2,b2,output)
+brain2.predict([[0.5]])
 
-#Mutar pesos
-brain.mutate()
-
-#Prediccion con nuevos pesos, debe ser diferente puesto que los pesos son modificados
-array = brain.predict([[0.5]])
-print("Brain 1 Mutate: " + str(array))
-
-
-brain2 = brain.clone()
-
-array2= brain2.predict([[0.5]])
-print("Brain 2 predict: " + str(array2))
-
-brain.mutate([[0.5]])
-array= brain.predict([[0.5]])
-print("Brain 1 Mutate: " + str(array))
-
-array2= brain2.predict([[0.5]])
-print("Brain 2 predict: " + str(array2))
-
+print("Brain 1")
+brain.printVariables()
+print("Brain 2")
+brain2.printVariables()
