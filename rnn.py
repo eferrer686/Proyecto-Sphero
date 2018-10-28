@@ -1,9 +1,11 @@
 import tensorflow as tf
-import copy
+
 
 #Setup of RNN
 class Brain(object):
     def __init__(self,nodesInput,nodesHidden,nodesOutput):
+
+        self.randomRate = 0.5
        
         self.inputs = tf.placeholder(shape=[None,nodesInput],dtype=tf.float32)
 
@@ -17,22 +19,22 @@ class Brain(object):
 
         #Mutaciones de red Neural
         #Mutar W1
-        self.rW = tf.Variable(tf.random_uniform(self.W1.shape,0,0.5),validate_shape=False)
+        self.rW = tf.Variable(tf.random_uniform(self.W1.shape,0,self.randomRate),validate_shape=False)
         self.newW = tf.multiply(self.W1,self.rW)
         self.mutateW1 = tf.assign(self.W1,self.newW)
 
         #Mutar W2
-        self.rW = tf.Variable(tf.random_uniform(self.W2.shape,0,0.5),validate_shape=False)
+        self.rW = tf.Variable(tf.random_uniform(self.W2.shape,0,self.randomRate),validate_shape=False)
         self.newW = tf.multiply(self.W2,self.rW)
         self.mutateW2 = tf.assign(self.W2,self.newW)
 
         #Mutar b1
-        self.rW = tf.Variable(tf.random_uniform(self.b1.shape,0,0.5),validate_shape=False)
+        self.rW = tf.Variable(tf.random_uniform(self.b1.shape,0,self.randomRate),validate_shape=False)
         self.newW = tf.multiply(self.b1,self.rW)
         self.mutateb1 = tf.assign(self.b1,self.newW)
 
         #Mutar b2
-        self.rW = tf.Variable(tf.random_uniform(self.b2.shape,0,0.5),validate_shape=False)
+        self.rW = tf.Variable(tf.random_uniform(self.b2.shape,0,self.randomRate),validate_shape=False)
         self.newW = tf.multiply(self.b2,self.rW)
         self.mutateb2 = tf.assign(self.b2,self.newW)
 
@@ -49,63 +51,40 @@ class Brain(object):
         return predict
 
     def mutate(self,randomRate = 0.5):
+        self.randomRate = randomRate
         #Mutar Red Neural
         self.sess.run(self.mutateW1)
         self.sess.run(self.mutateW2)
         self.sess.run(self.mutateb1)
         self.sess.run(self.mutateb2)
 
-    def clone(self):
 
-        inputs = self.inputs
-
-        W1 = tf.identity(self.W1)
-        b1 = tf.identity(self.b1)
-        hidden_1 = tf.identity(self.hidden_1)
-        
-        W2 = tf.identity(self.W2)
-        b2 = tf.identity(self.b2)
-        output = tf.identity(self.output)
-        
-        return inputs,W1,b1,hidden_1,W2,b2,output
     
-    def copy(self,inputs,W1,b1,hidden_1,W2,b2,output):
+    def copy(self,brainClone):
         #Copy from another brain
-        self.sess.run(tf.global_variables_initializer())
 
-        self.copyinputs = tf.assign(self.inputs,inputs)
 
-        self.copyW1 = tf.assign(self.W1,W1)
-        self.copyb1 = tf.assign(self.b1,b1)
-        self.copyh1 = tf.assign(self.hidden_1,hidden_1)
-
-        self.copyW2 = tf.assign(self.W2,W2)
-        self.copyb2 = tf.assign(self.b2,b2)
-        self.copyoutput = tf.assign(self.output,output)
-
-        self.sess.run(tf.global_variables_initializer())
-
-        self.sess.run(self.copyinputs)
-
-        self.sess.run(self.copyW1)
-        self.sess.run(self.copyb1)
-        self.sess.run(self.copyh1)
-
-        self.sess.run(self.copyW2)
-        self.sess.run(self.copyb2)
-        self.sess.run(self.copyoutput)
+        tW1 = tf.Variable(tf.identity(brainClone.sess.run(brainClone.W1)))
+        tb1 = tf.Variable(tf.identity(brainClone.sess.run(brainClone.b1)))
+        
+        tW2 = tf.Variable(tf.identity(brainClone.sess.run(brainClone.W2)))
+        tb2 = tf.Variable(tf.identity(brainClone.sess.run(brainClone.b2)))
         
     
-    def setAll(self,inputs,W1,b1,hidden_1,W2,b2,output):
-        self.inputs = inputs
+        copyW1 = tf.assign(self.W1,tW1)
+        copyb1 = tf.assign(self.b1,tb1)
+       
+        copyW2 = tf.assign(self.W2,tW2)
+        copyb2 = tf.assign(self.b2,tb2)
+       
+        init = tf.global_variables_initializer()
+        self.sess.run(init)
 
-        self.W1 = W1
-        self.b1 = b1
-        self.hidden_1 = hidden_1
-
-        self.W2 = W2
-        self.b2 = b2
-        self.output = output
+        self.sess.run(copyW1)
+        self.sess.run(copyb1)
+        
+        self.sess.run(copyW2)
+        self.sess.run(copyb2)
         
     
     def printVariables(self):
@@ -114,6 +93,6 @@ class Brain(object):
         print(self.sess.run(self.W2))
         print(self.sess.run(self.b2))
 
-brain = Brain(4,5,1)
-
-brain.predict([[1,1,1,1]])
+    def destroy(self):
+        
+        del self
