@@ -1,5 +1,5 @@
 
-let totalPopulation = 50;
+let totalPopulation = 20;
 let allSpheros = [];
 let activeSpheros = [];
 let counter = 0;
@@ -13,9 +13,11 @@ let x = 50;
 let y = 50;
 var exit = null;
 
+var walls = [];
+
 var genWinner = null;
 
-let timer = 20;
+let timer = 30;
 
 function setup() {
   createCanvas(800,400);
@@ -23,12 +25,16 @@ function setup() {
   rectMode(CENTER);
   ellipseMode(CENTER);
 
-  exit = new Exit(700,300);
+  //Select maze
+  maze2();
+ 
   for (let i = 0; i < totalPopulation; i++) {
     var sphero = new Sphero(x,y,exit);
     activeSpheros.push(sphero);
     allSpheros.push(sphero);
   }
+
+  
   
 }
 
@@ -82,6 +88,20 @@ function play(){
     activeSpheros[i].think();
   }
 
+  /*
+  //Delete spheros that collide
+  for(var i = 0;i < activeSpheros.length ;i++){
+    if(activeSpheros.length<=1){
+      winnerSphero = activeSpheros[i];
+      reset();
+      break;
+    }
+    if(activeSpheros[i].collide==1){
+      activeSpheros.splice(i);
+      i--;
+    }
+  }*/
+
 }
 
 
@@ -119,7 +139,10 @@ function getBestSpheros(num){
 function replacePopulation(bestSpheros,num,x,y,exit){
   allSpheros=[];
   activeSpheros=[];
-  for(var i = 0; i<totalPopulation-2; i++){
+
+  
+
+  for(var i = 0; i<totalPopulation+numBestSpheros-2; i++){
     var newSphero = new Sphero(x,y,exit);
 
     newSphero.setBrain(bestSpheros[i%num].brain.copy());
@@ -137,7 +160,7 @@ function replacePopulation(bestSpheros,num,x,y,exit){
   newSphero.setBrain(bestSpheros[0].brain.copy());
 
   activeSpheros.push(newSphero);
-  activeSpheros.push(newSphero);
+ 
 }
 
 function graphics(){
@@ -153,8 +176,32 @@ function graphics(){
       activeSpheros[i].show();
     }
 
+    for (let i = 0; i < walls.length; i++) {
+      fill(255,200);
+      walls[i].show();
+      
+    }
+
     //update exit graphics
     fill(0,255,0);
     exit.show();
 
+}
+
+
+function maze1() {
+  
+  walls[0] = new Wall(350,50,50,200);
+  walls[1] = new Wall(550,350,50,200);
+  walls[2] = new Wall(50,250,200,50);
+  exit = new Exit(700,300);
+}
+
+
+function maze2() {
+  
+  walls[0] = new Wall(150,150,50,310);
+  walls[1] = new Wall(350,350,50,200);
+  walls[2] = new Wall(550,150,50,310);
+  exit = new Exit(750,50);
 }
