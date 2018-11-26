@@ -21,27 +21,27 @@ let timer = 30;
 
 function setup() {
   createCanvas(800,400);
-  
+
   rectMode(CENTER);
   ellipseMode(CENTER);
 
   //Select maze
-  maze2();
- 
+  maze5();
+
   for (let i = 0; i < totalPopulation; i++) {
     var sphero = new Sphero(x,y,exit);
     activeSpheros.push(sphero);
     allSpheros.push(sphero);
   }
 
-  
-  
+
+
 }
 
 function draw() {
   background(0);
   graphics();
-  
+
   sliderval = document.getElementById("vel").value;
 
   for(var i = 0;i<sliderval;i++){
@@ -50,7 +50,7 @@ function draw() {
       //create new generation and reset simulation
       reset();
     }else{
-      
+
       //Run or keep running simulation
         play();
     }
@@ -58,7 +58,7 @@ function draw() {
 
 }
 function play(){
-  
+
 
   //Update spheros movement
   for(var i = 0;i < activeSpheros.length ;i++){
@@ -72,16 +72,16 @@ function play(){
       break;
     }
 
-    
+
     if(activeSpheros[i].score > bestScore){
       bestScore=activeSpheros[i].score;
     }
   }
 
 
-  
 
-  
+
+
   //Make spheros "think"
   for(var i = 0;i < activeSpheros.length ;i++){
 
@@ -109,7 +109,7 @@ function reset(){
     counter = 0;
     generation++;
     getBestSpheros(numBestSpheros);
-    
+
 }
 function getBestSpheros(num){
   let bestSpheros = [];
@@ -140,7 +140,7 @@ function replacePopulation(bestSpheros,num,x,y,exit){
   allSpheros=[];
   activeSpheros=[];
 
-  
+
 
   for(var i = 0; i<totalPopulation+numBestSpheros-2; i++){
     var newSphero = new Sphero(x,y,exit);
@@ -160,7 +160,7 @@ function replacePopulation(bestSpheros,num,x,y,exit){
   newSphero.setBrain(bestSpheros[0].brain.copy());
 
   activeSpheros.push(newSphero);
- 
+
 }
 
 function graphics(){
@@ -179,7 +179,7 @@ function graphics(){
     for (let i = 0; i < walls.length; i++) {
       fill(255,200);
       walls[i].show();
-      
+
     }
 
     //update exit graphics
@@ -190,7 +190,7 @@ function graphics(){
 
 
 function maze1() {
-  
+
   walls[0] = new Wall(350,50,50,200);
   walls[1] = new Wall(550,350,50,200);
   walls[2] = new Wall(50,250,200,50);
@@ -199,9 +199,35 @@ function maze1() {
 
 
 function maze2() {
-  
+
   walls[0] = new Wall(150,150,50,310);
   walls[1] = new Wall(350,350,50,200);
   walls[2] = new Wall(550,150,50,310);
   exit = new Exit(750,50);
+}
+
+function maze3() {
+  walls[0] = new Wall(600,50,50,600);
+  walls[1] = new Wall(300,350,50,600);
+  walls[2] = new Wall(100,50,50,200);
+  walls[3] = new Wall(685,150,120,50);
+  exit = new Exit(700, 50);
+}
+
+function maze4() {
+  walls[0] = new Wall(200,50,100,50);
+  walls[1] = new Wall(200,150,100,50);
+  walls[2] = new Wall(200,250,100,50);
+  walls[3] = new Wall(200,350,100,50);
+  walls[4] = new Wall(600,150,50,300);
+  walls[5] = new Wall(400,10,50,300);
+  exit = new Exit(700, 50);
+}
+
+function maze5() {
+  walls[0] = new Wall(350,200,500,50);
+  walls[1] = new Wall(370,350,550,50);
+  walls[2] = new Wall(625,50,50,350);
+
+  exit = new Exit(750, 50);
 }
