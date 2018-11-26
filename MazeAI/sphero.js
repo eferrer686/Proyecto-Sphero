@@ -23,7 +23,7 @@ class Sphero{
     this.exit = exit
 
     this.originalDist = this.getDist();
-    this.brain = new NeuralNetwork(9,50,4);
+    this.brain = new NeuralNetwork(9,30,4);
 
     this.score = this.originalDist - this.getDist();
   }
