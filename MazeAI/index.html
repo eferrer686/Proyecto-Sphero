@@ -1,9 +1,10 @@
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>Maze AI</title>
   <h1>MAze AI</h1>
-  
+
   <div class="mazeAI">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
@@ -23,13 +24,15 @@
   <p id="score">Time: </p>
   <p id="bestscore">Best Score: </p>
   <p id="winner">Winner at generation: </p>
-  <select name="mazeNumber" id="mazeNumber" onchange="changeMaze(this)">
-    <option value="1" >Maze 1</option>
-    <option value="2">Maze 2</option>
-    <option value="3">Maze 3</option>
-    <option value="4">Maze 4</option>
-    <option value="5">Maze 5</option>
-  </select>
+  
+    <select name="mazeNumber" id="mazeNumber" onchange="changeMaze(this)">
+      <option value="1">Maze 1</option>
+      <option value="2">Maze 2</option>
+      <option value="3">Maze 3</option>
+      <option value="4">Maze 4</option>
+      <option value="5">Maze 5</option>
+    </select>
+  
   <table class="table">
     <td>
       <p>Speed:</p>
@@ -42,52 +45,63 @@
   </table>
 
   <div class="footer">
-    <p>Created by Eduardo Ferrer Mac Gregor Ruiz</p>
+    <p>Created by Team Poom ITESM CCM</p>
   </div>
   <!-- This line removes any default padding and style.
        You might only need one of these values set. -->
   <style>
-  h1,h2,p {
-    padding: 5px;
+    h1,
+    h2,
+    p {
+      padding: 5px;
       font-family: sans-serif;
       text-align: center;
       color: whitesmoke;
       font-weight: bold;
     }
-  html{
-      background: linear-gradient(to right, #6e6e6e,#c7c7c7,#6e6e6e);
+
+    html {
+      background: linear-gradient(to right, #6e6e6e, #c7c7c7, #6e6e6e);
     }
-  body {padding: 0; margin: 0;}
-  .slider {
 
-    position: relative;
+    body {
+      padding: 0;
+      margin: 0;
+    }
 
-    height: 20px;
-    width: 400px;
-    border-radius: 10px;
-    background: white;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-    margin: 0 auto;
-  }
-  .table{
-    margin: 0 auto;
-  }
-  canvas {
-      padding:20px;
+    .slider {
+
+      position: relative;
+
+      height: 20px;
+      width: 400px;
+      border-radius: 10px;
+      background: white;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+      margin: 0 auto;
+    }
+
+    .table {
+      margin: 0 auto;
+    }
+
+    canvas {
+      padding: 20px;
       margin-left: auto;
       margin-right: auto;
       margin-bottom: 75px;
       display: block;
       width: auto;
       background-color: whitesmoke;
-      border:2px solid gray;
+      border: 2px solid gray;
       border-radius: 25px;
       align-items: center;
     }
-  .footer {
+
+    .footer {
       position: fixed;
       left: 0;
       bottom: 0;
@@ -95,10 +109,24 @@
       background-color: #474747;
       color: white;
       text-align: center;
-  }
-   </style>
+    }
+
+    select,
+    option {
+      text-align: center;
+      display: block;
+      width: 100%;
+
+      width: 200px;
+      background: white;
+      border-radius: 5px;
+      margin: 0 auto;
+    }
+  
+  </style>
 </head>
 
 <body>
 </body>
+
 </html>
